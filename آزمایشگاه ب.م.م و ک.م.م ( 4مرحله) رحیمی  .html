@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>آزمایشگاه ب.م.م و ک.م.م</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05030f;--panel:rgba(22,16,56,.8);--line:rgba(160,140,255,.4);--text:#eef0ff;--mut:#b4b1e0;--acc:#7cf3ff;--ok:#5dffb0;--bad:#ff5c7a;--gold:#ffd86b;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--text);font-family:Vazirmatn,Tahoma,sans-serif;background:radial-gradient(1px 1px at 20px 30px,#fff,transparent),radial-gradient(1.5px 1.5px at 90px 80px,#cfe,transparent),radial-gradient(1px 1px at 130px 20px,#fcf,transparent),radial-gradient(ellipse at 15% 5%,#2b1068 0,transparent 50%),radial-gradient(ellipse at 90% 90%,#0b3a6e 0,transparent 50%),var(--bg);background-size:150px 150px,150px 150px,150px 150px,auto,auto,auto}
+#app{max-width:720px;margin:0 auto;padding:12px 14px 40px}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--mut);gap:6px}
+.bis{font-size:16px;font-weight:900;color:var(--gold)}
+h1{font-size:clamp(18px,5vw,26px);margin:8px 0;text-align:center;background:linear-gradient(90deg,var(--acc),#ff6bd6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tabs{display:flex;gap:5px}
+.tb,.btn{font:inherit;cursor:pointer;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 4px;font-size:12px}
+.tb{flex:1}.tb.on{border-color:var(--acc);box-shadow:0 0 14px rgba(124,243,255,.4);color:var(--acc)}
+.btn{padding:10px 16px;font-weight:700;font-size:14px}.btn:hover{border-color:var(--acc)}
+.btn.p{background:linear-gradient(90deg,#6a5cff,#ff5fd0);border:0}
+.btn.s{padding:5px 10px;font-size:12px}
+.btn:disabled{opacity:.5}
+section{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px;backdrop-filter:blur(6px)}
+section.hide{display:none}
+.intro{font-size:13px;color:var(--mut);line-height:1.9;margin:0 0 8px}
+.ctl{display:grid;gap:6px;margin-bottom:8px}
+.ctl label{font-size:13px;display:flex;align-items:center;gap:8px}
+.ctl label span{min-width:150px}
+.ctl input{flex:1;accent-color:#7cf3ff}
+.ctl b{color:var(--gold)}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.scene{position:relative;direction:ltr;height:380px;display:flex;justify-content:space-around;align-items:flex-end;border-bottom:3px solid rgba(160,140,255,.4);overflow:hidden}
+.tw{display:flex;flex-direction:column;align-items:center;gap:4px;width:42%}
+.tank{width:100%;max-width:130px;border:3px solid #9fd9ff;border-top:none;border-radius:0 0 16px 16px;position:relative;background:rgba(255,255,255,.05);overflow:hidden}
+.tank::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to top,transparent 0,transparent calc(var(--s,20px) - 1px),rgba(255,255,255,.4) calc(var(--s,20px) - 1px),rgba(255,255,255,.4) var(--s,20px))}
+.wat{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(#5be0ff,#2a78d8);transition:height .3s}
+.lab{font-size:12px;color:var(--mut);text-align:center;direction:rtl;min-height:34px}
+.cup{position:absolute;left:0;top:0;transition:transform .5s;z-index:3;width:34px}
+.ci{width:100%;border:2px solid #ffd86b;border-top:none;border-radius:0 0 6px 6px;background:rgba(255,216,107,.35);transform-origin:bottom right;transition:transform .15s}
+.ci.t{transform:rotate(28deg)}
+.res{margin-top:8px;line-height:1.9;font-size:14px;min-height:46px;color:var(--mut)}
+.res.good{color:var(--ok)}.res.bad{color:var(--bad)}
+.frow{margin:8px 0;padding:8px;border:1px solid var(--line);border-radius:12px}
+.fh{font-size:13px}
+.bar{height:10px;background:rgba(255,255,255,.1);border-radius:6px;overflow:hidden;margin:4px 0 8px}
+.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff6b6b,#ffb347);transition:width .1s}
+.bkl{display:flex;gap:10px;align-items:flex-start}
+.bk{width:120px;min-height:44px;flex:none;border:2px dashed #c89b5a;border-radius:0 0 14px 14px;padding:3px;font-size:14px;line-height:1.25;word-break:break-all;direction:ltr}
+.bk.bad{border-color:var(--bad)}
+.shelf{display:flex;flex-wrap:wrap;gap:5px;flex:1}
+.pk{background:rgba(200,155,90,.28);border:2px solid #c89b5a;border-radius:8px;padding:4px 8px;font-size:13px;font-weight:700;animation:drop .4s ease-out}
+@keyframes drop{from{transform:translateY(-60px);opacity:0}}
+.tot{font-size:14px;margin-top:6px;text-align:center}.tot b{color:var(--gold);font-size:18px}
+svg{width:100%;max-width:420px;display:block;margin:0 auto}
+.eqn{margin-top:8px;padding:8px;border:1px dashed var(--line);border-radius:12px;text-align:center;font-size:14px;line-height:2}
+@media(prefers-reduced-motion:reduce){.pk{animation:none}}
+.ov{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:rgba(5,3,15,.9);padding:16px;overflow:auto}
+.ov.hide{display:none}
+.box{width:100%;max-width:560px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:20px;text-align:center;margin:auto}
+.box h2{margin:6px 0;font-size:21px}
+input.nm{font:inherit;width:100%;margin:10px 0;padding:12px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.4);color:var(--text);text-align:center;font-size:16px}
+input.nm.err{border-color:var(--bad)}
+.who{font-size:13px;text-align:center;color:var(--acc);margin:2px 0 6px}
+table.rp{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0;text-align:right}
+.rp th,.rp td{border:1px solid var(--line);padding:5px}
+.rp th{background:rgba(124,243,255,.12)}
+.fin{margin-top:16px;text-align:center}
+.quiz{margin-top:12px;padding:10px;border:1px dashed var(--line);border-radius:14px}
+.qh{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px}
+.qbox{position:relative;margin-top:8px}.qbox.hide{display:none}
+.hg{position:absolute;top:0;left:0;width:48px;text-align:center;direction:ltr;z-index:2}
+.hg svg{width:34px;height:48px;max-width:none;display:block;margin:0 auto}
+.hn{font-size:15px;font-weight:900;color:var(--gold);line-height:1.2}
+.hg.low .hn{color:var(--bad)}.hg.low svg{animation:wob .5s infinite}
+@keyframes wob{25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+.qq{font-size:15px;font-weight:700;line-height:1.9;padding-left:56px;min-height:56px}
+.qo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.qo .btn{font-size:18px;font-weight:700;padding:10px 4px}
+.qo .btn.ok{background:rgba(93,255,176,.35);border-color:var(--ok)}.qo .btn.no{background:rgba(255,92,122,.3);border-color:var(--bad)}
+.qf{margin-top:8px;font-size:13px;line-height:1.9;color:var(--mut);min-height:24px}.qf.good{color:var(--ok)}.qf.bad{color:var(--bad)}
+.lvb{display:flex;gap:8px;justify-content:center;margin:6px 0}
+.lvb .btn{flex:1;max-width:200px;font-size:16px}
+.btn.sel{border-color:var(--acc);background:rgba(124,243,255,.2);box-shadow:0 0 14px rgba(124,243,255,.4)}
+.lvb.err .btn{border-color:var(--bad)}
+.tb.lock{opacity:.65}
+.tb.pulse{animation:pls 1s infinite;border-color:var(--ok);color:var(--ok)}
+@keyframes pls{50%{box-shadow:0 0 18px rgba(93,255,176,.8)}}
+.lockmsg{min-height:0;margin-top:8px;font-size:13px;text-align:center;color:var(--gold)}
+.pr{display:none}
+.stn{margin:0 0 10px;padding:10px 12px;border:1px solid var(--gold);border-radius:12px;background:rgba(255,216,107,.1);color:var(--gold);font-size:14px;font-weight:700;line-height:1.9;text-align:center}
+@keyframes blk{0%,49%{opacity:1;box-shadow:0 0 16px rgba(255,216,107,.9);border-color:var(--gold)}50%,100%{opacity:.3;box-shadow:none;border-color:var(--line)}}
+.btn.blink{animation:blk 1s steps(1) infinite;color:var(--gold)}
+@media(prefers-reduced-motion:reduce){.btn.blink{animation:none;opacity:1;box-shadow:0 0 16px rgba(255,216,107,.9);border-color:var(--gold)}}
+.wb{font-size:44px;line-height:1.2}
+@media print{html,body{background:#fff!important;color:#000!important}.top,h1,.who,.tabs,.lockmsg,.btns,.ov,#s0,#s1,#s2,#s3,#s4 .intro{display:none!important}#app{max-width:none;padding:0}#s4{display:block!important;background:none!important;border:0!important;padding:0!important;color:#000!important;backdrop-filter:none}.pr{display:block!important;text-align:center;color:#000}.rp th,.rp td{border:1px solid #444!important;color:#000!important}.rp th{background:#e6e3ff!important}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div id="app">
+<div class="top"><span>طراح: فاطمه رحیمی</span><span class="bis">به نام خالق هستی</span><button class="btn s" id="mus">🎵 روشن</button></div>
+<h1>🔭 آزمایشگاه ب.م.م و ک.م.م</h1>
+<div class="who" id="who"></div>
+<div class="tabs"><button class="tb on" data-t="0">۱. ب.م.م پیمانه</button><button class="tb" data-t="1">۲. ب.م.م میوه</button><button class="tb" data-t="2">۳. ک.م.م سیاره</button><button class="tb" data-t="3">۴. ک.م.م خرگوش</button><button class="tb lock" data-t="4" id="tb4">🔒 ۵. گزارش کار</button></div>
+<div class="lockmsg" id="lockMsg"></div>
+
+<section id="s0"><div class="stn">دانش‌آموز عزیز، اول با این آزمایشگاه تعاملی کار کن و سپس به سوالات زیر پاسخ بده</div>
+<p class="intro">دو ظرف با گنجایش‌های متفاوت و یک پیمانه داریم. پیمانه را طوری انتخاب کن که هر دو ظرف را <b>دقیقاً پر</b> کند. بزرگ‌ترین پیمانهٔ ممکن همان ب.م.م است.</p>
+<div class="ctl">
+<label><span>ظرف اول: <b id="vA"></b> لیتر</span><input type="range" id="gA" min="4" max="36" value="12"></label>
+<label><span>ظرف دوم: <b id="vB"></b> لیتر</span><input type="range" id="gB" min="4" max="36" value="18"></label>
+<label><span>پیمانه: <b id="vC"></b> لیتر</span><input type="range" id="gC" min="1" max="12" value="2"></label>
+</div>
+<div class="btns"><button class="btn p" id="go0">💧 شروع پر کردن</button><button class="btn" id="big0">🏆 بزرگ‌ترین پیمانه</button></div>
+<div class="scene" id="sc"><div class="tw"><div class="tank" id="tk0"><div class="wat" id="w0"></div></div><div class="lab" id="l0"></div></div><div class="tw"><div class="tank" id="tk1"><div class="wat" id="w1"></div></div><div class="lab" id="l1"></div></div><div class="cup" id="cup"><div class="ci" id="ci"></div></div></div>
+<div class="res" id="r0"></div>
+</section>
+
+<section id="s1" class="hide"><div class="stn">دانش‌آموز عزیز، اول با این آزمایشگاه تعاملی کار کن و سپس به سوالات زیر پاسخ بده</div>
+<p class="intro">سیب و پرتقال داریم و می‌خواهیم آن‌ها را در سبدهای هم‌اندازه و بدون باقی‌مانده بسته‌بندی کنیم. هر بار سبد با چند کیلو میوه پر می‌شود و بسته‌بندی می‌گردد. <b>بزرگ‌ترین سبد مشترک</b> همان ب.م.م است.</p>
+<div class="ctl">
+<label><span>سیب: <b id="vMa"></b> کیلو</span><input type="range" id="ma" min="4" max="36" value="12"></label>
+<label><span>پرتقال: <b id="vMb"></b> کیلو</span><input type="range" id="mb" min="4" max="36" value="18"></label>
+<label><span>گنجایش سبد: <b id="vMc"></b> کیلو</span><input type="range" id="mc" min="1" max="12" value="2"></label>
+</div>
+<div class="btns"><button class="btn p" id="go1">📦 شروع بسته‌بندی</button><button class="btn" id="big1">🏆 بزرگ‌ترین سبد مشترک</button></div>
+<div class="frow"><div class="fh">🍎 سیب باقی‌مانده: <b id="ra0"></b> کیلو</div><div class="bar"><i id="br0"></i></div><div class="bkl"><div class="bk" id="bk0"></div><div class="shelf" id="sh0"></div></div></div>
+<div class="frow"><div class="fh">🍊 پرتقال باقی‌مانده: <b id="ra1"></b> کیلو</div><div class="bar"><i id="br1"></i></div><div class="bkl"><div class="bk" id="bk1"></div><div class="shelf" id="sh1"></div></div></div>
+<div class="res" id="r1"></div>
+</section>
+
+<section id="s2" class="hide"><div class="stn">دانش‌آموز عزیز، اول با این آزمایشگاه تعاملی کار کن و سپس به سوالات زیر پاسخ بده</div>
+<p class="intro">دو سیاره هم‌زمان از یک خط شروع به چرخش می‌کنند. اولین روزی که دوباره روی یک خط قرار می‌گیرند، ک.م.م دوره‌هاست. نماد ک.م.م دو کروشه است: [ ، ].</p>
+<div class="ctl">
+<label><span>دورهٔ سیارهٔ آبی: <b id="xva"></b> روز</span><input type="range" id="xa" min="2" max="12" value="4"></label>
+<label><span>دورهٔ سیارهٔ صورتی: <b id="xvb"></b> روز</span><input type="range" id="xb" min="2" max="12" value="6"></label>
+</div>
+<div class="btns"><button class="btn p" id="xgo">🪐 شروع / ادامه</button><button class="btn" id="xfast">سرعت: ×۱</button></div>
+<svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="60" fill="none" stroke="#7cf3ff" stroke-opacity=".3"/><circle cx="150" cy="150" r="115" fill="none" stroke="#ff6bd6" stroke-opacity=".3"/><line x1="150" y1="150" x2="150" y2="25" stroke="#fff" stroke-opacity=".35" stroke-dasharray="4 4"/><circle cx="150" cy="150" r="16" fill="#ffd86b"/><circle id="x0" r="9" fill="#7cf3ff"/><circle id="x1" r="11" fill="#ff6bd6"/></svg>
+<div class="tot" id="xday"></div><div class="res" id="xr"></div><div class="eqn" id="xeq"></div>
+</section>
+
+<section id="s3" class="hide"><div class="stn">دانش‌آموز عزیز، اول با این آزمایشگاه تعاملی کار کن و سپس به سوالات زیر پاسخ بده</div>
+<p class="intro">خرگوش و لاک‌پشت هم‌زمان از یک نقطهٔ شروع، دور یک میدان دایره‌ای می‌دوند و سرعتشان فرق دارد. زمان هر دور را انتخاب کن. اولین باری که دوباره در نقطهٔ شروع به هم می‌رسند، ک.م.م زمان‌های دو دور است.</p>
+<div class="ctl">
+<label><span>هر دور خرگوش: <b id="yva"></b> دقیقه</span><input type="range" id="ya" min="2" max="12" value="3"></label>
+<label><span>هر دور لاک‌پشت: <b id="yvb"></b> دقیقه</span><input type="range" id="yb" min="2" max="12" value="5"></label>
+</div>
+<div class="btns"><button class="btn p" id="ygo">🏃 شروع / ادامه</button><button class="btn" id="yfast">سرعت: ×۱</button></div>
+<svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="100" fill="none" stroke="#3b8f5a" stroke-opacity=".55" stroke-width="30"/><circle cx="150" cy="150" r="85" fill="none" stroke="#fff" stroke-opacity=".15"/><line x1="150" y1="32" x2="150" y2="68" stroke="#ffd86b" stroke-width="3"/><text x="150" y="22" text-anchor="middle" font-size="18">🏁</text><text x="150" y="156" text-anchor="middle" font-size="14" fill="#b4b1e0">میدان</text><text id="y0" font-size="22" text-anchor="middle" dominant-baseline="central">🐇</text><text id="y1" font-size="22" text-anchor="middle" dominant-baseline="central">🐢</text></svg>
+<div class="tot" id="yday"></div><div class="res" id="yr"></div><div class="eqn" id="yeq"></div>
+</section>
+
+<section id="s4" class="hide">
+<p class="intro">📋 مرحلهٔ آخر: گزارش کار و امتیازهای تو. گزارش را بخوان و در صورت نیاز دانلود کن.</p>
+<div id="rbody"></div>
+<div class="btns" style="justify-content:center"><button class="btn p" id="prt">🖨️ چاپ PDF</button><button class="btn" id="dlh">⬇️ دانلود گزارش کار</button><button class="btn" id="dlc">⬇️ دانلود امتیازات (CSV)</button></div>
+</section>
+</div>
+<div class="ov" id="nameOv"><div class="box"><div class="bis">به نام خالق هستی</div><h2>🔭 آزمایشگاه ب.م.م و ک.م.م</h2><div id="typ"></div><div id="setup" style="opacity:0;pointer-events:none;transition:opacity .6s"><div class="lvb" id="lvb"><button class="btn lv" data-l="0">🌱 آسان</button><button class="btn lv" data-l="1">🔥 متوسط</button></div><input class="nm" id="nm" maxlength="40" placeholder="نام و نام خانوادگی دانش‌آموز" autocomplete="off"><button class="btn p" id="st">🚀 شروع آزمایش‌ها</button></div></div></div>
+
+<div class="ov hide" id="warnOv"><div class="box"><div class="wb">⚠️</div><h2 id="wT"></h2><p class="intro" id="wP"></p><div class="btns" style="justify-content:center" id="wB"></div></div></div>
+
+<script>
+const $=id=>document.getElementById(id),fa=s=>String(s).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]),wait=ms=>new Promise(r=>setTimeout(r,ms)),rnd=a=>a[Math.floor(Math.random()*a.length)];
+const gcd=(a,b)=>b?gcd(b,a%b):a,lcm=(a,b)=>a/gcd(a,b)*b;
+const G=(a,b)=>`<span dir="ltr">(${fa(a)}، ${fa(b)})</span>`,K=(a,b)=>`<span dir="ltr">[${fa(a)}، ${fa(b)}]</span>`;
+let lmT=0;const lmsg=t=>{$('lockMsg').textContent=t;clearTimeout(lmT);lmT=setTimeout(()=>$('lockMsg').textContent='',4000)};
+const qn=[0,0,0,0],QS=3,usedQ=[[],[],[],[]],NM=['۱. ب.م.م پیمانه','۲. ب.م.م میوه','۳. ک.م.م سیاره','۴. ک.م.م خرگوش','۵. گزارش کار'];
+const unl=t=>qn.slice(0,t).every(n=>n>=QS);
+function updLock(){[1,2,3,4].forEach(t=>{const b=document.querySelector('.tb[data-t="'+t+'"]'),ok=unl(t),was=b.classList.contains('lock');b.classList.toggle('lock',!ok);b.textContent=(ok?(t==4?'📋 ':''):'🔒 ')+NM[t];if(ok&&was)b.classList.add('pulse')})}
+function goTab(t){if(!unl(t)){lmsg(t==4?'🔒 گزارش کار بعد از پایان هر چهار مرحله باز می‌شود.':'🔒 این مرحله بعد از پاسخ به هر سه سؤال مرحلهٔ '+fa(t)+' باز می‌شود.');return}
+  const b=document.querySelector('.tb[data-t="'+t+'"]');b.classList.remove('pulse');
+  if(t==4)rbody.innerHTML=`<div class="pr"><div style="font-weight:900;font-size:20px">به نام خالق هستی</div><h2>گزارش کار — آزمایشگاه ب.م.م و ک.م.م</h2></div>`+meta()+tbl(1)+`<p>🌟 ${sumT()}</p><div class="pr" style="font-size:11px">طراح: فاطمه رحیمی</div>`;
+  document.querySelectorAll('.tb').forEach(x=>x.classList.toggle('on',x===b));[0,1,2,3,4].forEach(i=>$('s'+i).classList.toggle('hide',i!=t));scrollTo(0,0)}
+document.querySelectorAll('.tb').forEach(b=>b.onclick=()=>goTab(+b.dataset.t));
+
+/* ---------- audio (music on by default; browsers start it at the first touch) ---------- */
+let AC,mg,mon=true,step=0;
+function initAudio(){if(AC){AC.resume&&AC.resume();return}try{AC=new(window.AudioContext||window.webkitAudioContext)();mg=AC.createGain();mg.gain.value=.6;mg.connect(AC.destination);setInterval(music,380)}catch(e){}}
+function tone(f,t,d,ty,v){if(!AC)return;const o=AC.createOscillator(),g=AC.createGain();o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+d*.3);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(mg);o.start(t);o.stop(t+d+.05)}
+const sc5=[220,261.6,293.7,329.6,392,440,523.3,587.3,659.3];
+function music(){if(!AC||!mon)return;const t=AC.currentTime+.05;if(step%16==0){const m=Math.floor(step/16)%2?1.125:1;[110,164.8,220,277].forEach(f=>tone(f*m,t,6.5,'sine',.06))}if(Math.random()<.7)tone(rnd(sc5),t,1.8,'triangle',.05);step++}
+function sfx(k){if(!AC||!mon)return;const t=AC.currentTime;
+  if(k==='pour')tone(500+Math.random()*300,t,.18,'sine',.1);
+  else if(k==='box')tone(180,t,.25,'square',.07);
+  else if(k==='no'){tone(520,t,.06,'sine',.06);tone(400,t+.14,.06,'sine',.05)}
+  else if(k==='tick')tone(1320,t,.08,'square',.05);
+  else if(k==='ok')[523,659,784,1047].forEach((f,j)=>tone(f,t+j*.1,.5,'sine',.16))}
+addEventListener('pointerdown',initAudio,{once:true});
+mus.onclick=()=>{initAudio();mon=!mon;mus.textContent=mon?'🎵 روشن':'🔇 خاموش'};
+
+/* ---------- 1: pouring ---------- */
+let busy=false;
+function setup0(){const A=+gA.value,B=+gB.value,m=Math.min(A,B);gC.max=m;if(+gC.value>m)gC.value=m;const c=+gC.value,k=170/Math.max(A,B);
+  vA.textContent=fa(A);vB.textContent=fa(B);vC.textContent=fa(c);
+  [[A,0],[B,1]].forEach(([cap,i])=>{const t=$('tk'+i);t.style.height=cap*k+'px';t.style.setProperty('--s',c*k+'px');$('w'+i).style.height='0';$('l'+i).textContent=`ظرف ${i?'دوم':'اول'}: ${fa(cap)} لیتر`});
+  ci.style.height=Math.max(10,c*k)+'px';cup.style.transform=`translate(${(sc.clientWidth-34)/2}px,6px)`;return{A,B,c,k}}
+async function moveCup(tk,h){const s=sc.getBoundingClientRect(),r=tk.getBoundingClientRect();cup.style.transform=`translate(${r.left-s.left+r.width/2-17}px,${Math.max(0,r.top-s.top-h-10)}px)`;await wait(550)}
+async function pour(){if(busy)return;busy=true;go0.disabled=big0.disabled=true;const{A,B,c,k}=setup0(),h=Math.max(10,c*k),cnt=[0,0],over=[0,0];r0.className='res';r0.textContent='';
+  for(let t=0;t<2;t++){const cap=t?B:A,n=Math.ceil(cap/c);await moveCup($('tk'+t),h);
+    for(let j=1;j<=n;j++){ci.classList.add('t');await wait(150);$('w'+t).style.height=Math.min(cap,j*c)/cap*100+'%';cnt[t]++;sfx('pour');
+      $('l'+t).textContent=`ظرف ${t?'دوم':'اول'}: ${fa(cap)} لیتر · ${fa(cnt[t])} پیمانه`;await wait(Math.max(120,1500/n));ci.classList.remove('t');await wait(120)}
+    over[t]=n*c-cap}
+  const g=gcd(A,B),ds=[];for(let d=1;d<=g;d++)if(g%d==0)ds.push(d);
+  {const ok=!over[0]&&!over[1];rec(0,'ب.م.م پیمانه',`ظرف‌ها ${fa(A)} و ${fa(B)} لیتر، پیمانه ${fa(c)} لیتر`,ok?(c==g?10:5):0,ok?(c==g?'بزرگ‌ترین پیمانهٔ مشترک (ب.م.م)':'پیمانهٔ مشترک، ولی نه بزرگ‌ترین'):'سرریز؛ شمارندهٔ مشترک نیست')}
+  if(!over[0]&&!over[1]){r0.className='res good';sfx('ok');
+    r0.innerHTML=c==g?`🏆 هر دو ظرف دقیقاً پر شدند (${fa(cnt[0])} و ${fa(cnt[1])} پیمانه). بزرگ‌ترین پیمانهٔ مشترک یعنی ب.م.م: ${G(A,B)} = <b>${fa(g)}</b>`:`هر دو ظرف دقیقاً پر شدند، پس ${fa(c)} شمارندهٔ مشترک است؛ اما بزرگ‌ترین نیست. پیمانهٔ بزرگ‌تری امتحان کن!`}
+  else{r0.className='res bad';sfx('no');r0.textContent=`پیمانهٔ ${fa(c)} لیتری در ${over[0]&&over[1]?'هر دو ظرف':over[0]?'ظرف اول':'ظرف دوم'} سرریز می‌کند، پس شمارندهٔ مشترک نیست. پیمانه‌های مناسب: ${ds.map(fa).join('، ')}`}
+  busy=false;go0.disabled=big0.disabled=false}
+[gA,gB,gC].forEach(e=>e.oninput=()=>{if(!busy)setup0()});
+go0.onclick=pour;big0.onclick=()=>{if(busy)return;gC.max=Math.min(+gA.value,+gB.value);gC.value=gcd(+gA.value,+gB.value);pour()};
+
+/* ---------- 2: fruit packing (GCD) ---------- */
+let busy1=false;
+function setup1(){const a=+ma.value,b=+mb.value;mc.max=Math.min(a,b);if(+mc.value>mc.max)mc.value=mc.max;vMa.textContent=fa(a);vMb.textContent=fa(b);vMc.textContent=fa(mc.value);
+  [a,b].forEach((v,i)=>{$('ra'+i).textContent=fa(v);$('br'+i).style.width='100%';$('bk'+i).innerHTML='';$('bk'+i).className='bk';$('sh'+i).innerHTML=''})}
+async function pack(){if(busy1)return;busy1=true;go1.disabled=big1.disabled=true;setup1();r1.className='res';r1.textContent='';
+  const T=[+ma.value,+mb.value],c=+mc.value,E=['🍎','🍊'],cnt=[0,0],left=[0,0];
+  for(let i=0;i<2;i++){let rem=T[i];const bk=$('bk'+i),sh=$('sh'+i);
+    while(rem>0){const take=Math.min(c,rem);
+      for(let k=1;k<=take;k++){rem--;$('ra'+i).textContent=fa(rem);$('br'+i).style.width=rem/T[i]*100+'%';bk.textContent+=E[i];sfx('pour');await wait(Math.max(60,800/c))}
+      if(take==c){await wait(250);const d=document.createElement('div');d.className='pk';d.textContent=`${E[i]} ${fa(c)} کیلو`;sh.appendChild(d);bk.textContent='';cnt[i]++;sfx('box');await wait(300)}
+      else{left[i]=take;bk.classList.add('bad')}}}
+  const g=gcd(T[0],T[1]);
+  {const ok=!left[0]&&!left[1];rec(1,'ب.م.م میوه',`سیب ${fa(T[0])} و پرتقال ${fa(T[1])} کیلو، سبد ${fa(c)} کیلو`,ok?(c==g?10:5):0,ok?(c==g?'بزرگ‌ترین سبد مشترک (ب.م.م)':'سبد مشترک، ولی نه بزرگ‌ترین'):'باقی‌مانده؛ شمارندهٔ مشترک نیست')}
+  if(!left[0]&&!left[1]){r1.className='res good';sfx('ok');
+    r1.innerHTML=c==g?`🏆 همهٔ میوه‌ها بدون باقی‌مانده بسته‌بندی شدند: ${fa(cnt[0])} سبد سیب و ${fa(cnt[1])} سبد پرتقال، هر سبد ${fa(c)} کیلو. بزرگ‌ترین سبد مشترک یعنی ب.م.م: ${G(T[0],T[1])} = <b>${fa(g)}</b>`:`همه بسته‌بندی شد، پس ${fa(c)} شمارندهٔ مشترک است؛ اما سبد بزرگ‌تری هم می‌شود. دوباره امتحان کن!`}
+  else{r1.className='res bad';sfx('no');r1.textContent=`با سبد ${fa(c)} کیلویی ${left[0]?fa(left[0])+' کیلو سیب':''}${left[0]&&left[1]?' و ':''}${left[1]?fa(left[1])+' کیلو پرتقال':''} باقی ماند و سبد پر نشد. پس ${fa(c)} شمارندهٔ مشترک نیست.`}
+  busy1=false;go1.disabled=big1.disabled=false}
+[ma,mb,mc].forEach(e=>e.oninput=()=>{if(!busy1)setup1()});
+go1.onclick=pack;big1.onclick=()=>{if(busy1)return;mc.max=Math.min(+ma.value,+mb.value);mc.value=gcd(+ma.value,+mb.value);pack()};
+
+/* ---------- 3 & 4: LCM races (planets, rabbit and turtle) ---------- */
+function race(p,R,at,U,N,msg){const A=$(p+'a'),B=$(p+'b'),E=[$(p+'0'),$(p+'1')],SPD=[1,3,8];let T=0,run=false,last=0,day=0,si=0,spd=1;
+  const info=()=>{const a=+A.value,b=+B.value,g=gcd(a,b),L=lcm(a,b);$(p+'va').textContent=fa(a);$(p+'vb').textContent=fa(b);
+    $(p+'eq').innerHTML=`ک.م.م: ${K(a,b)} = <b>${fa(L)}</b> &nbsp;·&nbsp; ب.م.م: ${G(a,b)} = <b>${fa(g)}</b><br>${fa(a)} × ${fa(b)} = ${fa(a*b)} = ${fa(g)} × ${fa(L)}`};
+  const draw=()=>{const P=[+A.value,+B.value];E.forEach((e,i)=>{const th=2*Math.PI*T/P[i];e.setAttribute(at[0],150+R[i]*Math.sin(th));e.setAttribute(at[1],150-R[i]*Math.cos(th))});
+    $(p+'day').innerHTML=`${U} <b>${fa(Math.floor(T))}</b> · ${N[0]}: ${fa(Math.floor(T/P[0]))} دور · ${N[1]}: ${fa(Math.floor(T/P[1]))} دور`};
+  const reset=()=>{run=false;T=0;day=0;draw();$(p+'r').className='res';$(p+'r').textContent='';info()};
+  const tick=ts=>{if(!run)return;const dt=Math.min(.05,(ts-last)/1000);last=ts;T+=dt*1.5*spd;const a=+A.value,b=+B.value;let hit=0;
+    while(day<Math.floor(T)){day++;if(day%a==0&&day%b==0){hit=day;break}}
+    if(hit){T=hit;run=false;draw();$(p+'r').className='res good';$(p+'r').innerHTML=msg(hit,a,b)+' برای رسیدن بعدی دوباره «ادامه» را بزن.';if(hit==lcm(a,b))rec(p=='x'?2:3,p=='x'?'ک.م.م سیاره‌ها':'ک.م.م خرگوش و لاک‌پشت',`دوره‌ها ${fa(a)} و ${fa(b)} ${U}`,10,`اولین هم‌رسی بعد از ${fa(hit)} ${U} (ک.م.م)`);sfx('ok');return}
+    draw();requestAnimationFrame(tick)};
+  [A,B].forEach(e=>e.oninput=reset);
+  $(p+'go').onclick=()=>{if(run)return;run=true;$(p+'r').textContent='';last=performance.now();requestAnimationFrame(tick)};
+  $(p+'fast').onclick=()=>{si=(si+1)%3;spd=SPD[si];$(p+'fast').textContent='سرعت: ×'+fa(spd)};reset()}
+race('x',[60,115],['cx','cy'],'روز',['آبی','صورتی'],(h,a,b)=>`✨ در روز <b>${fa(h)}</b> هر دو سیاره دوباره روی یک خط قرار گرفتند (آبی ${fa(h/a)} دور و صورتی ${fa(h/b)} دور). این عدد ک.م.م است: ${K(a,b)} = ${fa(h)}.`);
+race('y',[94,106],['x','y'],'دقیقه',['خرگوش','لاک‌پشت'],(h,a,b)=>`🏁 بعد از <b>${fa(h)}</b> دقیقه، خرگوش و لاک‌پشت دوباره در نقطهٔ شروع به هم رسیدند: خرگوش ${fa(h/a)} دور و لاک‌پشت ${fa(h/b)} دور دویده‌اند. این زمان ک.م.م است: ${K(a,b)} = ${fa(h)}.`);
+const S={name:'',log:[],seen:new Set(),t0:Date.now()},total=()=>S.log.reduce((a,x)=>a+x.pts,0),esc=t=>String(t).replace(/[<>&]/g,'');
+function rec(tab,title,detail,pts,note){const k=tab+detail;if(pts>0&&S.seen.has(k)){pts=0;note+=' (تکراری، بدون امتیاز)'}else if(pts>0)S.seen.add(k);S.log.push({tab,title,detail,pts,note});who.textContent=`👩‍🚀 ${S.name} · ${lvT()} · ⭐ امتیاز: ${fa(total())}`;updLock()}
+function startLab(){const v=nm.value.trim();if(LVL===null){$('lvb').classList.add('err');return}if(v.length<2){nm.classList.add('err');nm.focus();return}S.name=esc(v);S.t0=Date.now();who.textContent=`👩‍🚀 ${S.name} · ${lvT()} · ⭐ امتیاز: ${fa(0)}`;nameOv.classList.add('hide');initAudio()}
+st.onclick=startLab;nm.onkeydown=e=>{if(e.key==='Enter')startLab()};nm.oninput=()=>nm.classList.remove('err');
+const rows=()=>S.log.map((x,i)=>`<tr><td>${fa(i+1)}</td><td>${x.title}</td><td>${x.detail}</td><td>${x.note}</td><td>${fa(x.pts)}</td></tr>`).join('')||'<tr><td colspan="5">هنوز آزمایشی انجام نشده است.</td></tr>';
+const meta=()=>`<p>دانش‌آموز: <b>${S.name}</b> · سطح: ${lvT()} · تاریخ: ${new Date().toLocaleDateString('fa-IR')} · مدت: ${fa(Math.max(1,Math.round((Date.now()-S.t0)/60000)))} دقیقه</p>`;
+const tbl=c=>`<table${c?' class="rp"':''}><tr><th>#</th><th>آزمایش</th><th>شرایط</th><th>نتیجه</th><th>امتیاز</th></tr>${rows()}</table>`;
+const sumT=()=>`امتیاز کل: <b>${fa(total())}</b> · تعداد آزمایش‌ها: ${fa(S.log.length)}`;
+async function dl(f,data){try{const d=window.claude&&await claude.use('downloads');if(!d){alert('دانلود در این نمایش در دسترس نیست. صفحه را در مرورگر باز کن.');return}await d.save({filename:f,data})}catch(e){if(!e||e.code!=='declined')alert('ذخیره انجام نشد.')}}
+const fn=()=>S.name.replace(/\s+/g,'-');
+dlh.onclick=()=>dl(`گزارش-${fn()}.html`,`<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><title>گزارش کار</title><style>body{font-family:Vazirmatn,Tahoma,sans-serif;max-width:820px;margin:20px auto;padding:0 14px;color:#111}h1,.b,.f{text-align:center}.b{font-weight:900;font-size:20px}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid #444;padding:6px;text-align:right}th{background:#e6e3ff}.t{margin-top:14px;border:2px solid #444;padding:10px;border-radius:10px}.f{font-size:11px;color:#555;margin-top:14px}</style></head><body><div class="b">به نام خالق هستی</div><h1>گزارش کار — آزمایشگاه ب.م.م و ک.م.م</h1>${meta()}${tbl(0)}<div class="t">${sumT()}</div><div class="f">طراح: فاطمه رحیمی</div></body></html>`);
+dlc.onclick=()=>{const q=t=>'"'+String(t).replace(/"/g,'""')+'"';dl(`امتیازات-${fn()}.csv`,'\uFEFF'+[['دانش‌آموز',S.name],['امتیاز کل',total()],[],['ردیف','آزمایش','شرایط','نتیجه','امتیاز'],...S.log.map((x,i)=>[i+1,x.title,x.detail,x.note,x.pts])].map(r=>r.map(q).join(',')).join('\n'))};
+
+/* ---------- levels, typing intro, timed challenge questions ---------- */
+let LVL=null,QD=null,tmI=null,tmT=0,tmL=15;const TMAX=15,lvT=()=>LVL?'متوسط':'آسان';
+const IL=['در این آزمایشگاه با چهار آزمایش جذاب، ب.م.م و ک.م.م را کشف می‌کنی.','با پیمانه و سبد میوه، بزرگ‌ترین شمارندهٔ مشترک را پیدا می‌کنی.','با سیاره‌ها و دو دونده، کوچک‌ترین مضرب مشترک را می‌بینی.','هر مرحله سه سؤال دارد؛ بعد از پاسخ به هر سه سؤال، به مرحلهٔ بعد می‌روی و در پایان گزارش کار و چاپ PDF باز می‌شود 📋','در هر مرحله سه سؤال چالشی هست و برای پاسخ به هر سؤال فقط ۱۵ ثانیه وقت داری ⏳','سطح سؤال‌ها را انتخاب کن و نام و نام خانوادگی‌ات را بنویس تا در گزارش کار ثبت شود.'];
+let skipT=false;$('typ').onclick=()=>skipT=true;
+document.querySelectorAll('.lv').forEach(b=>b.onclick=()=>{LVL=+b.dataset.l;document.querySelectorAll('.lv').forEach(x=>x.classList.toggle('sel',x===b));$('lvb').classList.remove('err')});
+(async()=>{const box=$('typ');for(const L of IL){const d=document.createElement('p');d.className='intro';box.appendChild(d);
+  for(let i=1;i<L.length&&!skipT;i++){d.textContent=L.slice(0,i)+'▌';await wait(30)}
+  d.textContent=L;if(!skipT)await wait(260)}
+  const s=$('setup');s.style.opacity=1;s.style.pointerEvents='auto'})();
+
+const PG=[[[6,9],[8,12],[10,15],[12,18],[8,20],[9,12],[10,20],[14,21],[6,15],[12,16],[15,20]],[[24,36],[18,30],[16,36],[20,32],[27,36],[30,36],[28,34],[18,27],[25,35],[22,33],[21,28]]],
+PL=[[[2,3],[3,4],[2,5],[4,6],[3,5],[2,6],[4,5],[3,6]],[[4,6],[6,8],[4,10],[6,9],[8,12],[9,12],[6,10],[10,12],[5,8],[4,9],[8,10],[6,7]]];
+const shf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function mkQ(t){const[a,b]=(()=>{const p=rnd((t<2?PG[LVL]:PL[LVL]).filter(x=>!usedQ[t].includes(x)));usedQ[t].push(p);return p})(),g=gcd(a,b),L=lcm(a,b),ans=t<2?g:L;let q,sp;
+  if(t==0){q=`دو ظرف ${fa(a)} و ${fa(b)} لیتری را با یک پیمانه دقیقاً پر می‌کنیم. بزرگ‌ترین پیمانهٔ ممکن چند لیتر است؟`;sp=[Math.min(a,b),Math.abs(a-b),L]}
+  else if(t==1){q=`${fa(a)} کیلو سیب و ${fa(b)} کیلو پرتقال را در سبدهای هم‌اندازه و بدون باقی‌مانده می‌ریزیم. بزرگ‌ترین گنجایش ممکن برای هر سبد چند کیلو است؟`;sp=[Math.min(a,b),Math.abs(a-b),L]}
+  else if(t==2){q=`دورهٔ دو سیاره ${fa(a)} و ${fa(b)} روز است و هم‌زمان از یک خط شروع می‌کنند. بعد از چند روز برای اولین بار دوباره روی یک خط قرار می‌گیرند؟`;sp=[a*b,Math.max(a,b),a+b]}
+  else{q=`خرگوش هر ${fa(a)} دقیقه و لاک‌پشت هر ${fa(b)} دقیقه یک دور می‌زند. بعد از چند دقیقه برای اولین بار دوباره در نقطهٔ شروع به هم می‌رسند؟`;sp=[a*b,Math.max(a,b),a+b]}
+  const ok=x=>x>0&&x!==ans,d=[...new Set([...shf(sp.filter(ok)),...shf([ans+1,ans-1,ans+2,ans-2,ans+3,ans*2].filter(ok))])].slice(0,3);
+  const ds=[];for(let k=1;k<=g;k++)if(g%k==0)ds.push(k);
+  const exp=t<2?`شمارنده‌های مشترک ${fa(a)} و ${fa(b)}: ${ds.map(fa).join('، ')} ← بزرگ‌ترین آن‌ها ${fa(g)} است (ب.م.م).`:`ک.م.م ${fa(a)} و ${fa(b)} برابر ${fa(L)} است: ${fa(L)} = ${fa(a)} × ${fa(L/a)} = ${fa(b)} × ${fa(L/b)}.`;
+  return{i:t,a,b,q,ans,opts:shf([ans,...d]),exp,detail:`سؤال ${t<2?'ب.م.م':'ک.م.م'} ${fa(a)} و ${fa(b)}`,done:false,t0:performance.now()}}
+const hgS=i=>{const P='M8 4H32C32 20 22 26 22 28C22 30 32 36 32 52H8C8 36 18 30 18 28C18 26 8 20 8 4Z';return`<svg viewBox="0 0 40 56"><defs><clipPath id="cp${i}"><path d="${P}"/></clipPath></defs><rect x="4" y="0" width="32" height="4" rx="2" fill="#ffd86b"/><rect x="4" y="52" width="32" height="4" rx="2" fill="#ffd86b"/><g clip-path="url(#cp${i})"><rect id="sT${i}" x="0" y="4" width="40" height="24" fill="#ffd86b"/><rect id="sB${i}" x="0" y="52" width="40" height="0" fill="#ffd86b"/><rect id="sS${i}" x="19.2" y="28" width="1.6" height="24" fill="#ffd86b"/></g><path d="${P}" fill="rgba(124,243,255,.12)" stroke="#7cf3ff" stroke-width="1.6"/></svg>`};
+[0,1,2,3].forEach(i=>{const d=document.createElement('div');d.className='quiz';
+  d.innerHTML=`<div class="qh"><b id="qc${i}">🎯 چالش سؤال</b><button class="btn s" id="qb${i}">🎯 سؤال بعد</button></div><div class="qbox hide" id="qx${i}"><div class="hg" id="hg${i}">${hgS(i)}<div class="hn" id="hn${i}">${fa(15)}</div></div><div class="qq" id="qq${i}"></div><div class="qo" id="qo${i}"></div><div class="qf" id="qf${i}"></div></div>`;
+  $('s'+i).appendChild(d);$('qb'+i).onclick=()=>askQ(i)});
+function tmStop(){clearInterval(tmI);tmI=null}
+function tmUp(){const i=QD.i,e=(performance.now()-tmT)/1000,f=Math.min(1,e/TMAX),left=Math.max(0,Math.ceil(TMAX-e)),A=(k,a,v)=>$(k+i).setAttribute(a,v);
+  A('sT','y',4+24*f);A('sT','height',24-24*f);A('sB','y',52-24*f);A('sB','height',24*f);A('sS','height',Math.max(0,24-24*f));
+  $('hn'+i).textContent=fa(left);$('hg'+i).classList.toggle('low',left<=5&&e>0);return e}
+function tmTick(){if(!QD||QD.done)return tmStop();const e=tmUp(),left=Math.max(0,Math.ceil(TMAX-e));
+  if(left<tmL){tmL=left;if(left<=3&&left>0)sfx('tick')}
+  if(e>=TMAX)endQ(null)}
+function askQ(i){if(QD&&!QD.done)return;if(qn[i]>=QS){showWarn(i);return}QD=mkQ(i);const sl=[['gA','gB'],['ma','mb'],['xa','xb'],['ya','yb']][i];
+  if(!(i==0&&busy)&&!(i==1&&busy1)){sl.forEach((id,k)=>{$(id).value=k?QD.b:QD.a;$(id).dispatchEvent(new Event('input'))})}
+  document.querySelectorAll('[id^=qb]').forEach(b=>{b.disabled=true;b.classList.remove('blink')});
+  $('qx'+i).classList.remove('hide');$('qq'+i).textContent=QD.q;$('qf'+i).textContent='';$('qf'+i).className='qf';
+  const o=$('qo'+i);o.innerHTML='';QD.opts.forEach(v=>{const b=document.createElement('button');b.className='btn';b.dataset.v=v;b.textContent=fa(v);b.onclick=()=>endQ(v);o.appendChild(b)});
+  tmT=performance.now();tmL=TMAX;tmUp();tmStop();tmI=setInterval(tmTick,100)}
+function endQ(val){if(!QD||QD.done)return;QD.done=true;tmStop();const i=QD.i,ok=val===QD.ans,tm=val===null,sec=Math.round((performance.now()-QD.t0)/1000);
+  tmUp();document.querySelectorAll('#qo'+i+' .btn').forEach(b=>{b.disabled=true;if(+b.dataset.v===QD.ans)b.classList.add('ok');else if(+b.dataset.v===val)b.classList.add('no')});
+  qn[i]++;rec(i,'سؤال چالشی',QD.detail,ok?10:0,ok?`پاسخ درست در ${fa(sec)} ثانیه`:tm?'زمان تمام شد':`پاسخ نادرست (${fa(val)})`);
+  const f=$('qf'+i);f.className='qf '+(ok?'good':'bad');f.textContent=(ok?'✅ آفرین! درست بود. ':tm?'⏰ زمان تمام شد! ':'❌ نادرست. ')+`پاسخ درست ${fa(QD.ans)} است. `+QD.exp;
+  sfx(ok?'ok':'no');$('hg'+i).classList.remove('low');
+  updQB();if(qn[i]>=QS)setTimeout(()=>showWarn(i),4500)}
+const stT=i=>S.log.filter(x=>x.tab===i&&x.title==='سؤال چالشی').reduce((a,x)=>a+x.pts,0);
+function updQB(){[0,1,2,3].forEach(i=>{const b=$('qb'+i),n=qn[i];b.disabled=!!(QD&&!QD.done);b.classList.toggle('blink',!n&&!b.disabled);b.textContent=n>=QS?(i<3?'➡️ رفتن به مرحلهٔ بعد':'📋 گزارش کار و چاپ PDF'):n?`🎯 سؤال ${fa(n+1)} از ${fa(QS)}`:`🎯 شروع سؤال ${fa(1)} از ${fa(QS)}`;$('qc'+i).textContent=`🎯 چالش سؤال · ${fa(Math.min(n,QS))} از ${fa(QS)} پاسخ داده شد`})}
+function showWarn(i){const last=i==3;$('wT').textContent=last?'🎉 هر چهار مرحله تمام شد':'پایان مرحلهٔ '+fa(i+1);
+  $('wP').innerHTML=`به هر سه سؤال این مرحله پاسخ دادی. امتیاز سؤال‌های این مرحله: <b>${fa(stT(i))}</b> از ${fa(30)}.<br>`+(last?'گزارش کار باز شد. آن را ببین یا نسخهٔ PDF آن را چاپ کن.':`⚠️ هشدار: آمادهٔ رفتن به مرحلهٔ بعد، «${NM[i+1]}»، هستی؟`);
+  $('wB').innerHTML='';const mk=(t,c,f)=>{const b=document.createElement('button');b.className='btn '+c;b.textContent=t;b.onclick=()=>{warnOv.classList.add('hide');f&&f()};$('wB').appendChild(b)};
+  if(last){mk('📋 گزارش کار','p',()=>goTab(4));mk('🖨️ چاپ PDF','',printPdf);mk('↩️ ماندن در این مرحله','')}
+  else{mk('➡️ رفتن به مرحلهٔ بعد','p',()=>goTab(i+1));mk('↩️ ماندن در این مرحله','')}
+  warnOv.classList.remove('hide');sfx('ok')}
+async function makePdf(){const H=window.html2canvas,J=window.jspdf&&window.jspdf.jsPDF;if(!H||!J)throw new Error('lib');
+  if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+  const R=S.log,N=12,pages=Math.max(1,Math.ceil(R.length/N)),pdf=new J({unit:'mm',format:'a4',orientation:'portrait'}),host=document.createElement('div');
+  host.style.cssText='position:absolute;left:-10000px;top:0;width:794px';document.body.appendChild(host);
+  const head=`<div style="text-align:center;font-weight:900;font-size:20px">به نام خالق هستی</div><h2 style="text-align:center;margin:8px 0">گزارش کار — آزمایشگاه ب.م.م و ک.م.م</h2>${meta()}`,
+  css='<style>.pp{width:100%;border-collapse:collapse;font-size:12.5px;margin:10px 0}.pp th,.pp td{border:1px solid #444;padding:6px;text-align:right;line-height:1.7}.pp th{background:#e6e3ff}.pp th:first-child{width:34px}.pp th:last-child{width:56px}</style>',
+  tot=`<div style="margin-top:14px;border:2px solid #444;padding:10px;border-radius:10px">${sumT()}</div><div style="text-align:center;font-size:11px;color:#555;margin-top:14px">طراح: فاطمه رحیمی</div>`;
+  try{for(let p=0;p<pages;p++){const off=p*N,trs=R.slice(off,off+N).map((x,i)=>`<tr><td>${fa(off+i+1)}</td><td>${x.title}</td><td>${x.detail}</td><td>${x.note}</td><td>${fa(x.pts)}</td></tr>`).join('')||'<tr><td colspan="5">هنوز آزمایشی انجام نشده است.</td></tr>';
+    const pg=document.createElement('div');pg.style.cssText='width:794px;height:1123px;box-sizing:border-box;padding:48px 44px;background:#fff;color:#111;direction:rtl;font-family:Vazirmatn,Tahoma,sans-serif;overflow:hidden';
+    pg.innerHTML=css+(p==0?head:'')+`<table class="pp"><tr><th>#</th><th>آزمایش</th><th>شرایط</th><th>نتیجه</th><th>امتیاز</th></tr>${trs}</table>`+(p==pages-1?tot:'')+`<div style="text-align:center;font-size:11px;color:#555;margin-top:10px">صفحهٔ ${fa(p+1)} از ${fa(pages)}</div>`;
+    host.appendChild(pg);const cv=await H(pg,{scale:2,backgroundColor:'#fff',useCORS:true,scrollX:0,scrollY:0});
+    if(p)pdf.addPage();pdf.addImage(cv.toDataURL('image/jpeg',.92),'JPEG',0,0,210,297);host.removeChild(pg)}}finally{host.remove()}
+  return pdf.output('blob')}
+async function printPdf(){goTab(4);const t0=prt.textContent;prt.disabled=true;prt.textContent='⏳ در حال ساخت PDF…';
+  try{const blob=await makePdf(),name=`گزارش-${fn()}.pdf`,d=window.claude&&await claude.use('downloads');
+    if(d)await d.save({filename:name,data:blob});else{const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}}
+  catch(e){if(!(e&&e.code==='declined'))printOld()}
+  prt.disabled=false;prt.textContent=t0}
+function printOld(){goTab(4);setTimeout(()=>{try{window.print()}catch(e){alert('چاپ در این نمایش در دسترس نیست. گزارش را با دکمهٔ دانلود ذخیره کن و از مرورگر چاپ بگیر.')}},400)}
+prt.onclick=printPdf;
+setup0();setup1();updQB();updLock();
+</script>
+</body>
+</html>
